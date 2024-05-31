@@ -6,7 +6,7 @@ const Board = (function () {
   ];
 
   const isNumber = (value) => Number.isFinite(value)
-  const displayBoard = () => console.log(gameBoard)
+  const logBoard = () => console.log(gameBoard)
   const getFlatBoard = () => gameBoard.flat()
   const numExistsInBoard = (num) => getFlatBoard().includes(num)
   const convertNumToCell = (num) => {
@@ -58,36 +58,64 @@ const Board = (function () {
     gameBoard[row][col] = marker
   }
 
-  return { isFull, writeToCell, displayBoard, getAllPossibleTrios};
+  return { isFull, writeToCell, logBoard, getAllPossibleTrios};
 })();
 
 const createPlayer = (name, marker) => {
   return { name, marker }
 }
 
-const createGame = (numPlayers) => {
-
+const createGame = (numPlayers, board) => {
   const players = []
+  const turns = 0
   const askName = (num) => prompt(`Hello player ${num} what is your name?`)
+  const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
 
   const setPlayersNames = () => {
     for (let i = 1; i < numPlayers + 1; i++) {
-      players.push(createPlayer(askName(i)))
+      // Making a temporary faster version
+      // players.push(createPlayer(askName(i)))
+      players.push(createPlayer(`player${i}`))
+
     }
   }
 
-  return { players, setPlayersNames }
+  const setPlayersMarkers = () => {
+    players[0].marker = 'X'
+    players[1].marker = 'O'
+  }
+
+  const logInitialInfo = () => {
+    [player1, player2] = players
+    console.log(`
+                 Hello ${player1.name} and ${player2.name} :) Ready for rumble ?
+                 ${player1.name} you'll be playing first and with the ${player1.marker} marker,
+                 whereas you ${player2.name} will be playing with the ${player2.marker} marker. Let's Go!`)
+  }
+
+  const initializeGame = () => {
+    setPlayersNames()
+    setPlayersMarkers()
+    logInitialInfo()
+    board.logBoard()
+  }
+
+  const getDuePlayer = () => {
+    [player1, player2] = players
+    return turns % 2 === 0 ? player1 : player2
+  }
+
+  const playTurn = () => {
+    let currentPlayer = getDuePlayer()
+    let move = askMove(currentPlayer)
+    console.log(move)
+  }
+
+  return { players, initializeGame, playTurn}
 }
 
-Board.writeToCell(10, 'X')
-Board.writeToCell(3, 'X')
-Board.writeToCell(2, 'O')
-console.log(Board.getAllPossibleTrios())
-Board.displayBoard()
+const myGame = createGame(2, Board)
+myGame.initializeGame()
+myGame.playTurn()
 
-const jack = createPlayer('jack', 'X')
-const myGame = createGame(2)
-
-myGame.setPlayersNames()
-console.log(myGame.players)
 
