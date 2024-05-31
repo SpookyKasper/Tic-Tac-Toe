@@ -99,6 +99,13 @@ const createGame = (numPlayers, board) => {
     board.logBoard()
   }
 
+  const isWinner = (player) => {
+    const winningPattern = player.marker.repeat(3)
+    return board.getAllPossibleTrios().some(trio => trio === winningPattern)
+  }
+
+  const winner = () => players.find(player => isWinner(player))
+
   const getDuePlayer = () => {
     [player1, player2] = players
     return turns % 2 === 0 ? player1 : player2
@@ -107,16 +114,22 @@ const createGame = (numPlayers, board) => {
   const playTurn = () => {
     let currentPlayer = getDuePlayer()
     let move = askMove(currentPlayer)
-    let result = board.writeToCell(+move, currentPlayer.marker)
-    console.log(result)
+    return board.writeToCell(+move, currentPlayer.marker)
+  }
+
+  const gameLoop = () => {
+    initializeGame()
+    while(!winner()){
+      board.logBoard()
+      playTurn()
+    }
     board.logBoard()
   }
 
-  return { players, initializeGame, playTurn}
+  return { gameLoop }
 }
 
 const myGame = createGame(2, Board)
-myGame.initializeGame()
-myGame.playTurn()
+myGame.gameLoop()
 
 
