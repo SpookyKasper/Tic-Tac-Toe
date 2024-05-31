@@ -67,7 +67,7 @@ const createPlayer = (name, marker) => {
 
 const createGame = (numPlayers, board) => {
   const players = []
-  const turns = 0
+  let turns = 0
   const askName = (num) => prompt(`Hello player ${num} what is your name?`)
   const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
 
@@ -114,7 +114,11 @@ const createGame = (numPlayers, board) => {
   const playTurn = () => {
     let currentPlayer = getDuePlayer()
     let move = askMove(currentPlayer)
-    return board.writeToCell(+move, currentPlayer.marker)
+    if (!board.writeToCell(+move, currentPlayer.marker)) {
+      return
+    }
+
+    turns++
   }
 
   const gameLoop = () => {
