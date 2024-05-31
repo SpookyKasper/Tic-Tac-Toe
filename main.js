@@ -6,7 +6,7 @@ const Board = (function () {
   ];
 
   const isNumber = (value) => Number.isFinite(value)
-  const logBoard = () => console.log(gameBoard)
+  const logBoard = () => console.table(gameBoard)
   const getFlatBoard = () => gameBoard.flat()
   const numExistsInBoard = (num) => getFlatBoard().includes(num)
   const convertNumToCell = (num) => {
@@ -55,7 +55,7 @@ const Board = (function () {
     }
 
     const [row, col] = convertNumToCell(num)
-    gameBoard[row][col] = marker
+    return gameBoard[row][col] = marker
   }
 
   return { isFull, writeToCell, logBoard, getAllPossibleTrios};
@@ -76,7 +76,6 @@ const createGame = (numPlayers, board) => {
       // Making a temporary faster version
       // players.push(createPlayer(askName(i)))
       players.push(createPlayer(`player${i}`))
-
     }
   }
 
@@ -108,7 +107,9 @@ const createGame = (numPlayers, board) => {
   const playTurn = () => {
     let currentPlayer = getDuePlayer()
     let move = askMove(currentPlayer)
-    console.log(move)
+    let result = board.writeToCell(+move, currentPlayer.marker)
+    console.log(result)
+    board.logBoard()
   }
 
   return { players, initializeGame, playTurn}
