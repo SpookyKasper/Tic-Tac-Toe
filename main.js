@@ -5,8 +5,8 @@ const Board = (function () {
     [7, 8, 9]
   ];
 
-  const getCellValue = (cell) => gameBoard[cell[0]][cell[1]]
   const isNumber = (value) => Number.isFinite(value)
+  const displayBoard = () => console.log(gameBoard)
   const getFlatBoard = () => gameBoard.flat()
   const numExistsInBoard = (num) => getFlatBoard().includes(num)
   const convertNumToCell = (num) => {
@@ -14,10 +14,39 @@ const Board = (function () {
     let colIndex = gameBoard[rowIndex].indexOf(num)
     return [rowIndex, colIndex]
   }
+  const transposeBoard = () => {
+    let firstCol = []
+    let secondCol = []
+    let thirdCol = []
+    for (let row of gameBoard) {
+      firstCol.push(row[0])
+      secondCol.push(row[1])
+      thirdCol.push(row[2])
+    }
+    return [firstCol, secondCol, thirdCol]
+  }
+  const getDiagonals = () => {
+    let firstDiago = []
+    let secondDiago = []
+    let supIndex = 2
+    for (let i = 0; i < 3; i++) {
+      firstDiago.push(gameBoard[i][i])
+      secondDiago.push(gameBoard[i][supIndex])
+      supIndex--
+    }
+    return [firstDiago, secondDiago]
+  }
 
-  const displayBoard = () => console.log(gameBoard)
+  const convertToStrings = (matrix) => matrix.map(array => array.join(''))
 
-  const isFree = (cell) => isNumber(getCellValue(cell))
+  const getRowsToStrings = () => convertToStrings(gameBoard)
+  const getColsToStrings = () => convertToStrings(transposeBoard())
+  const getDiagonalsToStrings = () => convertToStrings(getDiagonals())
+  const getAllPossibleWins = () => [getRowsToStrings(), getColsToStrings(), getDiagonalsToStrings()].flat()
+  // The following methods are not necessary anymore as writeToCell already do their job
+  // const isFree = (cell) => isNumber(getCellValue(cell))
+  // const getCellValue = (cell) => gameBoard[cell[0]][cell[1]]
+
   const isFull = () => getFlatBoard().every(value => !isNumber(value))
   const writeToCell = (num, marker) => {
     if (!numExistsInBoard(num)) {
@@ -29,9 +58,11 @@ const Board = (function () {
     gameBoard[row][col] = marker
   }
 
-  return { isFree, isFull, writeToCell, displayBoard };
+  return { isFull, writeToCell, displayBoard, getAllPossibleWins};
 })();
 
 Board.writeToCell(10, 'X')
 Board.writeToCell(3, 'X')
+Board.writeToCell(2, 'O')
+console.log(Board.getAllPossibleWins())
 Board.displayBoard()
