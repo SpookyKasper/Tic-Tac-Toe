@@ -42,7 +42,7 @@ const Board = (function () {
   const getRowsToStrings = () => convertToStrings(gameBoard)
   const getColsToStrings = () => convertToStrings(transposeBoard())
   const getDiagonalsToStrings = () => convertToStrings(getDiagonals())
-  const getAllPossibleWins = () => [getRowsToStrings(), getColsToStrings(), getDiagonalsToStrings()].flat()
+  const getAllPossibleTrios = () => [getRowsToStrings(), getColsToStrings(), getDiagonalsToStrings()].flat()
   // The following methods are not necessary anymore as writeToCell already do their job
   // const isFree = (cell) => isNumber(getCellValue(cell))
   // const getCellValue = (cell) => gameBoard[cell[0]][cell[1]]
@@ -58,11 +58,36 @@ const Board = (function () {
     gameBoard[row][col] = marker
   }
 
-  return { isFull, writeToCell, displayBoard, getAllPossibleWins};
+  return { isFull, writeToCell, displayBoard, getAllPossibleTrios};
 })();
+
+const createPlayer = (name, marker) => {
+  return { name, marker }
+}
+
+const createGame = (numPlayers) => {
+
+  const players = []
+  const askName = (num) => prompt(`Hello player ${num} what is your name?`)
+
+  const setPlayersNames = () => {
+    for (let i = 1; i < numPlayers + 1; i++) {
+      players.push(createPlayer(askName(i)))
+    }
+  }
+
+  return { players, setPlayersNames }
+}
 
 Board.writeToCell(10, 'X')
 Board.writeToCell(3, 'X')
 Board.writeToCell(2, 'O')
-console.log(Board.getAllPossibleWins())
+console.log(Board.getAllPossibleTrios())
 Board.displayBoard()
+
+const jack = createPlayer('jack', 'X')
+const myGame = createGame(2)
+
+myGame.setPlayersNames()
+console.log(myGame.players)
+
