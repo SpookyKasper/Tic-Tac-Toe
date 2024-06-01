@@ -121,19 +121,34 @@ const createGame = (numPlayers, board) => {
     turns++
   }
 
-  const gameLoop = () => {
+  const playGame = () => {
     initializeGame()
-    while(!winner()){
+    gameLoop()
+    board.logBoard()
+  }
+
+  const endOfGame = () => {
+    let gameWinner = winner()
+    if (gameWinner) {
+      console.log(`Congratulations ${gameWinner.name}! you won this game :)`)
+      return
+    }
+    console.log(`It's a draw this time!`)
+  }
+
+  const gameLoop = () => {
+    while(!winner() && !board.isFull()){
       board.logBoard()
       playTurn()
     }
     board.logBoard()
+    endOfGame()
   }
 
-  return { gameLoop }
+  return { playGame }
 }
 
 const myGame = createGame(2, Board)
-myGame.gameLoop()
+myGame.playGame()
 
 
