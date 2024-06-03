@@ -64,14 +64,15 @@ const createGame = (numPlayers, board) => {
     return drawMessage
   }
 
-  const gameLoop = () => {
-    while(!winner() && !board.isFull()){
-      board.logBoard()
-      playTurn()
-    }
-    board.logBoard()
-    endOfGame()
-  }
+  // became obsolete with the dom version
+  // const gameLoop = () => {
+  //   while(!winner() && !board.isFull()){
+  //     board.logBoard()
+  //     playTurn()
+  //   }
+  //   board.logBoard()
+  //   endOfGame()
+  // }
 
   const playGame = () => {
     initializeGame()

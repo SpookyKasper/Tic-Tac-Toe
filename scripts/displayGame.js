@@ -33,9 +33,11 @@ const displayGame = (function (game, board) {
   const addFunctionalityToCellEl = (cellEl) => {
     cellEl.addEventListener('click', () => {
       const cellNum = cellEl.textContent
+      cellEl.classList.add('played')
       cellEl.textContent = game.playTurn(+cellNum)
       if (game.winner() || board.isFull()){
         infoEl.textContent = game.endOfGame()
+        document.querySelector('.board').classList.add('played')
       }
     })
   }
