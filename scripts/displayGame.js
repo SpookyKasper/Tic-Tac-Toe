@@ -1,18 +1,42 @@
 const displayGame = (function (game, board) {
 
   const mainEl = document.querySelector('main')
+  const infoEl = document.createElement('div')
+
+  const initialDisplay = () => {
+    infoEl.className = 'info-box'
+    infoEl.textContent = game.initializeGame()
+    mainEl.appendChild(infoEl)
+  }
 
   const addBoardToDOM = () => {
+    initialDisplay()
     const boardElement = createBoardEl()
-    populateBoardElement(boardElement)
+    populateBoardWithCells(boardElement)
     mainEl.appendChild(boardElement)
   }
 
-  const populateBoardElement = (boardElement) => {
+  const populateBoardWithCells = (boardElement) => {
     board.gameBoard.flat().forEach((el) => {
-      const gameCellEl = createBoardSquare()
-      gameCellEl.textContent = el
+      const gameCellEl = createCellEl(el)
       boardElement.appendChild(gameCellEl)
+    })
+  }
+
+  const createCellEl = (el) => {
+    const cellEl = createBoardSquare()
+    cellEl.textContent = el
+    addFunctionalityToCellEl(cellEl)
+    return cellEl
+  }
+
+  const addFunctionalityToCellEl = (cellEl) => {
+    cellEl.addEventListener('click', () => {
+      const cellNum = cellEl.textContent
+      cellEl.textContent = game.playTurn(+cellNum)
+      if (game.winner() || board.isFull()){
+        infoEl.textContent = game.endOfGame()
+      }
     })
   }
 

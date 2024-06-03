@@ -1,8 +1,9 @@
 const createGame = (numPlayers, board) => {
   const players = []
   let turns = 0
-  const askName = (num) => prompt(`Hello player ${num} what is your name?`)
-  const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
+  // not necessary anymore, were for play in the console
+  // const askName = (num) => prompt(`Hello player ${num} what is your name?`)
+  // const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
 
   const setPlayersNames = () => {
     for (let i = 1; i < numPlayers + 1; i++) {
@@ -19,17 +20,16 @@ const createGame = (numPlayers, board) => {
 
   const logInitialInfo = () => {
     [player1, player2] = players
-    console.log(`
-                 Hello ${player1.name} and ${player2.name} :) Ready for rumble ?
-                 ${player1.name} you'll be playing first and with the ${player1.marker} marker,
-                 whereas you ${player2.name} will be playing with the ${player2.marker} marker. Let's Go!`)
+    let initialInfo = `Hello ${player1.name} and ${player2.name} :) Ready for rumble ?
+      ${player1.name} you'll be playing first and with the ${player1.marker} marker,
+      whereas you ${player2.name} will be playing with the ${player2.marker} marker. Let's Go!`
+    return initialInfo
   }
 
   const initializeGame = () => {
     setPlayersNames()
     setPlayersMarkers()
-    logInitialInfo()
-    board.logBoard()
+    return logInitialInfo()
   }
 
   const isWinner = (player) => {
@@ -44,29 +44,24 @@ const createGame = (numPlayers, board) => {
     return turns % 2 === 0 ? player1 : player2
   }
 
-  const playTurn = () => {
+  const playTurn = (move) => {
     let currentPlayer = getDuePlayer()
-    let move = askMove(currentPlayer)
-    if (!board.writeToCell(+move, currentPlayer.marker)) {
+    if (!board.writeToCell(move, currentPlayer.marker)) {
       return
     }
-
     turns++
-  }
-
-  const playGame = () => {
-    initializeGame()
-    gameLoop()
-    board.logBoard()
+    return currentPlayer.marker
   }
 
   const endOfGame = () => {
     let gameWinner = winner()
     if (gameWinner) {
-      console.log(`Congratulations ${gameWinner.name}! you won this game :)`)
-      return
+      let winnerMessage = `Congratulations ${gameWinner.name}! you won this game :)`
+      return winnerMessage
     }
-    console.log(`It's a draw this time!`)
+
+    let drawMessage = `It's a draw this time!`
+    return drawMessage
   }
 
   const gameLoop = () => {
@@ -78,5 +73,11 @@ const createGame = (numPlayers, board) => {
     endOfGame()
   }
 
-  return { playGame }
+  const playGame = () => {
+    initializeGame()
+    gameLoop()
+    board.logBoard()
+  }
+
+  return { initializeGame, playTurn, winner, endOfGame }
 }
