@@ -4,7 +4,9 @@ const displayGame = (function (game, board) {
     const boardEl = document.createElement('div')
     boardEl.className = 'board'
     board.gameBoard.flat().forEach((el) => {
-      boardEl.appendChild(createBoardSquare())
+      const gameCellEl = createBoardSquare()
+      gameCellEl.textContent = el
+      boardEl.appendChild(gameCellEl)
     })
     const mainEl = document.querySelector('main')
     mainEl.appendChild(boardEl)
