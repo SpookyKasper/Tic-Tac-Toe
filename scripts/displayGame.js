@@ -25,14 +25,14 @@ const displayGame = (function (game, board) {
 
   const createCellEl = (el) => {
     const cellEl = createBoardSquare()
-    cellEl.textContent = el
+    cellEl.dataset.cellNum = el
     addFunctionalityToCellEl(cellEl)
     return cellEl
   }
 
   const addFunctionalityToCellEl = (cellEl) => {
     cellEl.addEventListener('click', () => {
-      const cellNum = cellEl.textContent
+      const cellNum = cellEl.dataset.cellNum
       cellEl.classList.add('played')
       cellEl.textContent = game.playTurn(+cellNum)
       if (game.winner() || board.isFull()){
