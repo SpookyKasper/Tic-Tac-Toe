@@ -9,11 +9,32 @@ const displayGame = (function (game, board) {
     mainEl.appendChild(infoEl)
   }
 
-  const addBoardToDOM = () => {
+  const addReplayBtn = function(boardElement) {
+    const replayBtn = document.createElement('button')
+    replayBtn.className = 'replay-button'
+    replayBtn.textContent = 'Replay'
+    replayBtn.addEventListener('click', () => {
+      infoEl.textContent = 'Back to it!'
+      game.restartGame()
+      cleanBoard()
+    })
+    mainEl.appendChild(replayBtn)
+  }
+
+  const cleanBoard = () => {
+    const gameCells = document.querySelectorAll('.square')
+    gameCells.forEach((cell) => {
+      cell.textContent = ''
+      cell.classList.remove('played')
+    })
+  }
+
+  const addGameToDOM = () => {
     initialDisplay()
     const boardElement = createBoardEl()
     populateBoardWithCells(boardElement)
     mainEl.appendChild(boardElement)
+    addReplayBtn(boardElement)
   }
 
   const populateBoardWithCells = (boardElement) => {
@@ -47,14 +68,15 @@ const displayGame = (function (game, board) {
     boardEl.className = 'board'
     return boardEl
   }
+
   const createBoardSquare = () => {
     const squareEl = document.createElement('div')
     squareEl.className = 'square'
     return squareEl
   }
 
-  return { addBoardToDOM };
+  return { addGameToDOM };
 })(createGame(2, Board), Board);
 
 
-displayGame.addBoardToDOM()
+displayGame.addGameToDOM()

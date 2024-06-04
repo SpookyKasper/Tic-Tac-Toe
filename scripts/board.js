@@ -5,6 +5,12 @@ const Board = (function () {
     [7, 8, 9]
   ];
 
+  const resetBoard = () => {
+    gameBoard[0] = [1, 2, 3]
+    gameBoard[1] = [4, 5, 6]
+    gameBoard[2] = [7, 8, 9]
+    return gameBoard
+  }
   const isNumber = (value) => Number.isFinite(value)
   const logBoard = () => console.table(gameBoard)
   const getFlatBoard = () => gameBoard.flat()
@@ -58,7 +64,7 @@ const Board = (function () {
     return gameBoard[row][col] = marker
   }
 
-  return { gameBoard, isFull, writeToCell, logBoard, getAllPossibleTrios};
+  return { gameBoard, isFull, writeToCell, logBoard, getAllPossibleTrios, resetBoard};
 })();
 
 

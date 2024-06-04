@@ -74,11 +74,17 @@ const createGame = (numPlayers, board) => {
   //   endOfGame()
   // }
 
-  const playGame = () => {
-    initializeGame()
-    gameLoop()
-    board.logBoard()
+  const restartGame = function() {
+    this.turns = 0
+    this.board = board.resetBoard()
   }
 
-  return { initializeGame, playTurn, winner, endOfGame }
+  // obsolete
+  // const playGame = () => {
+  //   initializeGame()
+  //   gameLoop()
+  //   board.logBoard()
+  // }
+
+  return { initializeGame, playTurn, winner, endOfGame, restartGame }
 }
