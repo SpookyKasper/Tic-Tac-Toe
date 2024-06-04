@@ -9,14 +9,16 @@ const displayGame = (function (game, board) {
     mainEl.appendChild(infoEl)
   }
 
-  const addReplayBtn = function(boardElement) {
+  const addReplayBtn = () => {
     const replayBtn = document.createElement('button')
     replayBtn.className = 'replay-button'
+    replayBtn.classList.add('hidden')
     replayBtn.textContent = 'Replay'
-    replayBtn.addEventListener('click', () => {
+    replayBtn.addEventListener('click', function() {
       infoEl.textContent = 'Back to it!'
       game.restartGame()
       cleanBoard()
+      this.classList.toggle('hidden')
     })
     mainEl.appendChild(replayBtn)
   }
@@ -34,7 +36,7 @@ const displayGame = (function (game, board) {
     const boardElement = createBoardEl()
     populateBoardWithCells(boardElement)
     mainEl.appendChild(boardElement)
-    addReplayBtn(boardElement)
+    addReplayBtn()
   }
 
   const populateBoardWithCells = (boardElement) => {
@@ -59,6 +61,7 @@ const displayGame = (function (game, board) {
       if (game.winner() || board.isFull()){
         infoEl.textContent = game.endOfGame()
         document.querySelector('.board').classList.add('played')
+        document.querySelector('.replay-button').classList.remove('hidden')
       }
     })
   }
