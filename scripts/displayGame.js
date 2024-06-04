@@ -2,28 +2,44 @@ const displayGame = (function (game, board) {
 
   const mainEl = document.querySelector('main')
   const infoEl = document.createElement('div')
+  const boardEl = document.createElement('div')
+  const replayBtnEl = document.createElement('button')
 
-  const initialDisplay = () => {
-    infoEl.className = 'info-box'
-    infoEl.textContent = game.initializeGame()
-    mainEl.appendChild(infoEl)
+  const toggleHidden = (el) => {
+    el.classList.toggle('hidden')
   }
 
-  const addReplayBtn = () => {
-    const replayBtn = document.createElement('button')
-    replayBtn.className = 'replay-button'
-    replayBtn.classList.add('hidden')
-    replayBtn.textContent = 'Replay'
-    replayBtn.addEventListener('click', function() {
-      infoEl.textContent = 'Back to it!'
+  const setUpInfoBoxEl = () => {
+    infoEl.className = 'info-box'
+    infoEl.textContent = game.initializeGame()
+    return infoEl
+  }
+
+  const createBoardEl = () => {
+    boardEl.className = 'board'
+    return boardEl
+  }
+
+  const createBoardSquareEl = () => {
+    const squareEl = document.createElement('div')
+    squareEl.className = 'square'
+    return squareEl
+  }
+
+  const createReplayBtnEl = () => {
+    replayBtnEl.classList.add('replay-button', 'hidden')
+    replayBtnEl.textContent = 'Replay'
+    replayBtnEl.addEventListener('click',() => {
       game.restartGame()
       cleanBoard()
-      this.classList.toggle('hidden')
     })
-    mainEl.appendChild(replayBtn)
+    return replayBtnEl
   }
 
   const cleanBoard = () => {
+    boardEl.classList.remove('played')
+    toggleHidden(infoEl)
+    toggleHidden(replayBtnEl)
     const gameCells = document.querySelectorAll('.square')
     gameCells.forEach((cell) => {
       cell.textContent = ''
@@ -32,11 +48,13 @@ const displayGame = (function (game, board) {
   }
 
   const addGameToDOM = () => {
-    initialDisplay()
-    const boardElement = createBoardEl()
+    let infoElement = setUpInfoBoxEl()
+    let boardElement = createBoardEl()
+    let replayBtnEl = createReplayBtnEl()
     populateBoardWithCells(boardElement)
+    mainEl.appendChild(infoElement)
     mainEl.appendChild(boardElement)
-    addReplayBtn()
+    mainEl.appendChild(replayBtnEl)
   }
 
   const populateBoardWithCells = (boardElement) => {
@@ -47,7 +65,7 @@ const displayGame = (function (game, board) {
   }
 
   const createCellEl = (el) => {
-    const cellEl = createBoardSquare()
+    const cellEl = createBoardSquareEl()
     cellEl.dataset.cellNum = el
     addFunctionalityToCellEl(cellEl)
     return cellEl
@@ -58,24 +76,15 @@ const displayGame = (function (game, board) {
       const cellNum = cellEl.dataset.cellNum
       cellEl.classList.add('played')
       cellEl.textContent = game.playTurn(+cellNum)
+      infoEl.classList.add('hidden')
+      replayBtnEl.classList.add('hidden')
       if (game.winner() || board.isFull()){
+        infoEl.classList.remove('hidden')
         infoEl.textContent = game.endOfGame()
+        toggleHidden(replayBtnEl)
         document.querySelector('.board').classList.add('played')
-        document.querySelector('.replay-button').classList.remove('hidden')
       }
     })
-  }
-
-  const createBoardEl = () => {
-    const boardEl = document.createElement('div')
-    boardEl.className = 'board'
-    return boardEl
-  }
-
-  const createBoardSquare = () => {
-    const squareEl = document.createElement('div')
-    squareEl.className = 'square'
-    return squareEl
   }
 
   return { addGameToDOM };

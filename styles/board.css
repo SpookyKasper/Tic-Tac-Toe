@@ -16,7 +16,6 @@ main {
 }
 
 .square {
-  pointer-events: auto;
   border: 1px solid black;
   display: flex;
   justify-content: center;
@@ -29,14 +28,24 @@ main {
 }
 
 .info-box {
+  transition: opacity 0.5s;
   display: flex;
+  justify-content: center;
+  align-items: center;
   max-width: 400px;
+  min-height: 80px;
   font-size: large;
   line-height: 0.5cm;
   text-align: justify;
+  opacity: 1;
 }
 
+button {
+  transition: opacity 0.5s;
+  min-height: 30px;
+  border-radius: 20px;
+}
 
 .hidden {
-  visibility: hidden;
+  opacity: 0;
 }
