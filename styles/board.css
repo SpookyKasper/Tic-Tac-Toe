@@ -15,7 +15,7 @@ main {
   grid-template-rows: 1fr 1fr 1fr;
 }
 
-.square {
+.cell {
   border: 1px solid black;
   display: flex;
   justify-content: center;

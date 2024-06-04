@@ -1,8 +1,9 @@
 const createGame = (numPlayers, board) => {
   const players = []
   let turns = 0
-  // not necessary anymore, were for play in the console
+
   // const askName = (num) => prompt(`Hello player ${num} what is your name?`)
+  // legacy function for console play
   // const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
 
   const setPlayersNames = () => {

@@ -20,10 +20,12 @@ const displayGame = (function (game, board) {
     return boardEl
   }
 
-  const createBoardSquareEl = () => {
-    const squareEl = document.createElement('div')
-    squareEl.className = 'square'
-    return squareEl
+  const createBoardCellEl = (el) => {
+    const cellEl = document.createElement('div')
+    cellEl.className = 'cell'
+    cellEl.dataset.cellNum = el
+    addFunctionalityToCellEl(cellEl)
+    return cellEl
   }
 
   const createReplayBtnEl = () => {
@@ -40,7 +42,7 @@ const displayGame = (function (game, board) {
     boardEl.classList.remove('played')
     toggleHidden(infoEl)
     toggleHidden(replayBtnEl)
-    const gameCells = document.querySelectorAll('.square')
+    const gameCells = document.querySelectorAll('.cell')
     gameCells.forEach((cell) => {
       cell.textContent = ''
       cell.classList.remove('played')
@@ -59,16 +61,9 @@ const displayGame = (function (game, board) {
 
   const populateBoardWithCells = (boardElement) => {
     board.gameBoard.flat().forEach((el) => {
-      const gameCellEl = createCellEl(el)
+      const gameCellEl = createBoardCellEl(el)
       boardElement.appendChild(gameCellEl)
     })
-  }
-
-  const createCellEl = (el) => {
-    const cellEl = createBoardSquareEl()
-    cellEl.dataset.cellNum = el
-    addFunctionalityToCellEl(cellEl)
-    return cellEl
   }
 
   const addFunctionalityToCellEl = (cellEl) => {
