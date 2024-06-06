@@ -4,6 +4,18 @@ const displayGame = (function (game, board) {
   const infoEl = document.createElement('div')
   const boardEl = document.createElement('div')
   const replayBtnEl = document.createElement('button')
+  const gameInfoEl = document.createElement('div')
+  const currentPlayerNameTextEl = document.createElement('p')
+  const currentPlayerMarkerTextEl = document.createElement('p')
+  gameInfoEl.appendChild(currentPlayerNameTextEl)
+  gameInfoEl.appendChild(currentPlayerMarkerTextEl)
+
+  const displayNextPlayer = (currentPlayer) => {
+    [first, second] = game.players
+    nextPlayer = currentPlayer === first ? second : first
+    currentPlayerNameTextEl.textContent = `Current Player: ${nextPlayer.name}`
+    currentPlayerMarkerTextEl.textContent = `Marker: ${nextPlayer.marker}`
+  }
 
   const toggleHidden = (el) => {
     el.classList.toggle('hidden')
@@ -17,6 +29,7 @@ const displayGame = (function (game, board) {
     confirmBtnEl.addEventListener('click', () => {
       game.setPlayersNames(firstPlayerName.value, secondPlayerName.value)
       setUpInfoBoxEl()
+      displayNextPlayer(game.players[1])
     })
     dialogEl.addEventListener('close', () => {
       setUpInfoBoxEl()
@@ -72,6 +85,7 @@ const displayGame = (function (game, board) {
     populateBoardWithCells(boardElement)
     mainEl.appendChild(infoEl)
     mainEl.appendChild(boardElement)
+    mainEl.appendChild(gameInfoEl)
     mainEl.appendChild(replayBtnEl)
   }
 
@@ -85,7 +99,9 @@ const displayGame = (function (game, board) {
   const addFunctionalityToCellEl = (cellEl) => {
     cellEl.addEventListener('click', () => {
       const cellNum = cellEl.dataset.cellNum
-      cellEl.textContent = game.playTurn(+cellNum)
+      const currentPlayer = game.playTurn(+cellNum)
+      displayNextPlayer(currentPlayer)
+      cellEl.textContent = currentPlayer.marker
       cellEl.classList.add('played')
       infoEl.classList.add('hidden')
       replayBtnEl.classList.add('hidden')

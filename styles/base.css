@@ -17,6 +17,8 @@ dialog {
   margin: 100px auto;
   padding: 50px;
   max-width: 500px;
+  font-size: large;
+  font-family: Helvetica, sans-serif;
 }
 
 input {
