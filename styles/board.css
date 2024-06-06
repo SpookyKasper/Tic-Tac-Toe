@@ -5,6 +5,15 @@ main {
   transform: translateY(-20%);
 }
 
+.game {
+  display: flex;
+  gap: 20px;
+}
+
+h2 {
+  font-size: large;
+}
+
 .board {
   border: 2px solid black;
   width: 400px;
@@ -45,6 +54,10 @@ button {
   border-radius: 20px;
 }
 
+.replay-button {
+  max-width: 400px;
+}
+
 .hidden {
   opacity: 0;
 }
@@ -52,5 +65,17 @@ button {
 ::backdrop {
   background-color: black;
   opacity: 0.9;
+}
+
+.game-infos {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.game-info-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 

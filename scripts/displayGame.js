@@ -1,20 +1,17 @@
 const displayGame = (function (game, board) {
 
   const mainEl = document.querySelector('main')
-  const infoEl = document.createElement('div')
-  const boardEl = document.createElement('div')
+  const infoEl = document.querySelector('.info')
+  const boardEl = document.querySelector('.board')
   const replayBtnEl = document.createElement('button')
-  const gameInfoEl = document.createElement('div')
-  const currentPlayerNameTextEl = document.createElement('p')
-  const currentPlayerMarkerTextEl = document.createElement('p')
-  gameInfoEl.appendChild(currentPlayerNameTextEl)
-  gameInfoEl.appendChild(currentPlayerMarkerTextEl)
 
   const displayNextPlayer = (currentPlayer) => {
     [first, second] = game.players
     nextPlayer = currentPlayer === first ? second : first
-    currentPlayerNameTextEl.textContent = `Current Player: ${nextPlayer.name}`
-    currentPlayerMarkerTextEl.textContent = `Marker: ${nextPlayer.marker}`
+    const currentPlayerNameTextEl = document.querySelector('.current-player-name')
+    const currentPlayerMarkerTextEl = document.querySelector('.current-player-marker')
+    currentPlayerNameTextEl.textContent = `${nextPlayer.name}`
+    currentPlayerMarkerTextEl.textContent = `${nextPlayer.marker}`
   }
 
   const toggleHidden = (el) => {
@@ -83,9 +80,8 @@ const displayGame = (function (game, board) {
     let boardElement = createBoardEl()
     let replayBtnEl = createReplayBtnEl()
     populateBoardWithCells(boardElement)
-    mainEl.appendChild(infoEl)
-    mainEl.appendChild(boardElement)
-    mainEl.appendChild(gameInfoEl)
+    // mainEl.appendChild(infoEl)
+    // mainEl.appendChild(boardElement)
     mainEl.appendChild(replayBtnEl)
   }
 
