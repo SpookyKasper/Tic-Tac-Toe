@@ -6,11 +6,15 @@ const createGame = (numPlayers, board) => {
   // legacy function for console play
   // const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
 
-  const setPlayersNames = () => {
+  const setPlayersNames = (first, second) => {
+    [firstPlayer, secondPlayer] = players
+    if (first) firstPlayer.name = first
+    if (second) secondPlayer.name = second
+  }
+
+  const createPlayers = () => {
     for (let i = 1; i < numPlayers + 1; i++) {
-      // Making a temporary faster version
-      // players.push(createPlayer(askName(i)))
-      players.push(createPlayer(`player${i}`))
+      players.push(createPlayer(`Player ${i}`))
     }
   }
 
@@ -28,9 +32,9 @@ const createGame = (numPlayers, board) => {
   }
 
   const initializeGame = () => {
-    setPlayersNames()
+    createPlayers()
     setPlayersMarkers()
-    return logInitialInfo()
+    return logInitialInfo
   }
 
   const isWinner = (player) => {
@@ -87,5 +91,5 @@ const createGame = (numPlayers, board) => {
   //   board.logBoard()
   // }
 
-  return { initializeGame, playTurn, winner, endOfGame, restartGame }
+  return { logInitialInfo, setPlayersNames, initializeGame, playTurn, winner, endOfGame, restartGame }
 }

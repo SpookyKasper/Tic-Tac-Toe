@@ -8,6 +8,21 @@
   <title>Tic Tac Toe</title>
 </head>
 <body>
+  <dialog>
+    <p>Welcome Tic Tac Toe Enthusiasts!</p>
+    <p>You may input the names of the players that will challenge each other in this epic battle!</p>
+    <form method="dialog">
+      <label for="first-player-name">Player 1</label>
+      <input type="text" id="first-player-name">
+      <label for="second-player-name">Player 2</label>
+      <input type="text" id="second-player-name">
+      <div class="dialog-buttons">
+        <button>Skip</button>
+        <div></div>
+        <button id="confirmBtn">Confirm</button>
+      </div>
+    </form>
+  </dialog>
   <main></main>
 </body>
 <script src="scripts/board.js"></script>

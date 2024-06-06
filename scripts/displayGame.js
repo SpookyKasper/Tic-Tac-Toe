@@ -9,9 +9,24 @@ const displayGame = (function (game, board) {
     el.classList.toggle('hidden')
   }
 
+  const getUserNames = () => {
+    const dialogEl = document.querySelector('dialog')
+    const confirmBtnEl = document.getElementById('confirmBtn')
+    const firstPlayerName = document.getElementById('first-player-name')
+    const secondPlayerName = document.getElementById('second-player-name')
+    confirmBtnEl.addEventListener('click', () => {
+      game.setPlayersNames(firstPlayerName.value, secondPlayerName.value)
+      setUpInfoBoxEl()
+    })
+    dialogEl.addEventListener('close', () => {
+      setUpInfoBoxEl()
+    })
+    dialogEl.showModal()
+  }
+
   const setUpInfoBoxEl = () => {
     infoEl.className = 'info-box'
-    infoEl.textContent = game.initializeGame()
+    infoEl.textContent = game.logInitialInfo()
     return infoEl
   }
 
@@ -50,11 +65,12 @@ const displayGame = (function (game, board) {
   }
 
   const addGameToDOM = () => {
-    let infoElement = setUpInfoBoxEl()
+    game.initializeGame()
+    getUserNames()
     let boardElement = createBoardEl()
     let replayBtnEl = createReplayBtnEl()
     populateBoardWithCells(boardElement)
-    mainEl.appendChild(infoElement)
+    mainEl.appendChild(infoEl)
     mainEl.appendChild(boardElement)
     mainEl.appendChild(replayBtnEl)
   }
@@ -69,8 +85,8 @@ const displayGame = (function (game, board) {
   const addFunctionalityToCellEl = (cellEl) => {
     cellEl.addEventListener('click', () => {
       const cellNum = cellEl.dataset.cellNum
-      cellEl.classList.add('played')
       cellEl.textContent = game.playTurn(+cellNum)
+      cellEl.classList.add('played')
       infoEl.classList.add('hidden')
       replayBtnEl.classList.add('hidden')
       if (game.winner() || board.isFull()){

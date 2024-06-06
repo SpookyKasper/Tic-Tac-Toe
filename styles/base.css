@@ -12,4 +12,29 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
+dialog {
+  position: fixed;
+  margin: 100px auto;
+  padding: 50px;
+  max-width: 500px;
+}
 
+input {
+  padding: 5px;
+}
+
+.dialog-buttons {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
