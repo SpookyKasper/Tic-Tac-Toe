@@ -44,16 +44,12 @@ const Board = (function () {
   }
 
   const convertToStrings = (matrix) => matrix.map(array => array.join(''))
-
   const getRowsToStrings = () => convertToStrings(gameBoard)
   const getColsToStrings = () => convertToStrings(transposeBoard())
   const getDiagonalsToStrings = () => convertToStrings(getDiagonals())
   const getAllPossibleTrios = () => [getRowsToStrings(), getColsToStrings(), getDiagonalsToStrings()].flat()
-  // The following methods are not necessary anymore as writeToCell already do their job
-  // const isFree = (cell) => isNumber(getCellValue(cell))
-  // const getCellValue = (cell) => gameBoard[cell[0]][cell[1]]
-
   const isFull = () => getFlatBoard().every(value => !isNumber(value))
+
   const writeToCell = (num, marker) => {
     if (!numExistsInBoard(num)) {
       console.log('Not an available cell')

@@ -2,20 +2,16 @@ const createGame = (numPlayers, board) => {
   const players = []
   let turns = 0
 
-  // const askName = (num) => prompt(`Hello player ${num} what is your name?`)
-  // legacy function for console play
-  // const askMove = (player) => prompt(`Hello ${player.name} where would you like to play ? (type a cell number)`)
-
-  const setPlayersNames = (first, second) => {
-    [firstPlayer, secondPlayer] = players
-    if (first) firstPlayer.name = first
-    if (second) secondPlayer.name = second
-  }
-
   const createPlayers = () => {
     for (let i = 1; i < numPlayers + 1; i++) {
       players.push(createPlayer(`Player ${i}`))
     }
+  }
+
+  const setPlayersNames = (first, second) => {
+    [player1, player2] = players
+    if (first) player1.name = first
+    if (second) player2.name = second
   }
 
   const setPlayersMarkers = () => {
@@ -23,71 +19,51 @@ const createGame = (numPlayers, board) => {
     players[1].marker = 'O'
   }
 
-  const logInitialInfo = () => {
+  const startOfGameMessage = () => {
     [player1, player2] = players
-    let initialInfo = `Hello ${player1.name} and ${player2.name} :) Ready for rumble ? Let's Go!`
+    let initialInfo = `Hello ${player1.name} and ${player2.name} :) Ready to rumble ?
+      ${player1.name} you play first with the ${player1.marker} marker! Let's Go!`
     return initialInfo
   }
 
   const initializeGame = () => {
     createPlayers()
     setPlayersMarkers()
-    return logInitialInfo
   }
 
   const isWinner = (player) => {
     const winningPattern = player.marker.repeat(3)
+    console.log(board.getAllPossibleTrios())
     return board.getAllPossibleTrios().some(trio => trio === winningPattern)
   }
 
   const winner = () => players.find(player => isWinner(player))
-
-  const getDuePlayer = () => {
-    [player1, player2] = players
-    return turns % 2 === 0 ? player1 : player2
-  }
+  const getDuePlayer = () => turns % 2 === 0 ? players[0]: players[1]
+  const nextPlayer = (currentP) => currentP === players[0] ? players[1] : players[0]
 
   const playTurn = (move) => {
-    let currentPlayer = getDuePlayer()
-    if (!board.writeToCell(move, currentPlayer.marker)) {
+    let duePlayer = getDuePlayer()
+    let currentMarker = duePlayer.marker
+    if (!board.writeToCell(move, currentMarker)) {
       return
     }
     turns++
-    return currentPlayer
+    return duePlayer
   }
 
   const endOfGame = () => {
     let gameWinner = winner()
     if (gameWinner) {
-      let winnerMessage = `Congratulations ${gameWinner.name}! you won this game :)`
-      return winnerMessage
+      return `Congratulations ${gameWinner.name}! you won this game :)`
     }
 
-    let drawMessage = `It's a draw this time!`
-    return drawMessage
+    return `It's a draw this time!`
   }
-
-  // became obsolete with the dom version
-  // const gameLoop = () => {
-  //   while(!winner() && !board.isFull()){
-  //     board.logBoard()
-  //     playTurn()
-  //   }
-  //   board.logBoard()
-  //   endOfGame()
-  // }
 
   const restartGame = function() {
     this.turns = 0
     this.board = board.resetBoard()
   }
 
-  // obsolete
-  // const playGame = () => {
-  //   initializeGame()
-  //   gameLoop()
-  //   board.logBoard()
-  // }
-
-  return { players, logInitialInfo, setPlayersNames, initializeGame, playTurn, winner, endOfGame, restartGame, getDuePlayer }
+  return { startOfGameMessage, setPlayersNames, initializeGame, playTurn, getDuePlayer, winner, endOfGame, restartGame }
 }

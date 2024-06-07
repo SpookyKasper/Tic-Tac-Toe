@@ -10,10 +10,6 @@ main {
   gap: 20px;
 }
 
-h2 {
-  font-size: large;
-}
-
 .board {
   border: 2px solid black;
   width: 400px;
@@ -31,6 +27,22 @@ h2 {
   font-size: 72px;
 }
 
+.cover {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  cursor: pointer;
+  background-color: aqua;
+}
+
+.scaled {
+  transform: scale(0.9);
+  background-color: white;
+}
+
 .played {
   pointer-events: none;
 }
@@ -43,8 +55,8 @@ h2 {
   max-width: 400px;
   min-height: 80px;
   font-size: large;
-  line-height: 0.5cm;
-  text-align: justify;
+  line-height: 0.8cm;
+  /* text-align: justify; */
   opacity: 1;
 }
 
@@ -52,6 +64,7 @@ button {
   transition: opacity 0.5s;
   min-height: 30px;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .replay-button {
