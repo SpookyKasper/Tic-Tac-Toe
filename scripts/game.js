@@ -22,7 +22,7 @@ const createGame = (numPlayers, board) => {
   const startOfGameMessage = () => {
     [player1, player2] = players
     let initialInfo = `Hello ${player1.name} and ${player2.name} :) Ready to rumble ?
-      ${player1.name} you play first with the ${player1.marker} marker! Let's Go!`
+      ${player1.name} you play first with the ${player1.marker} marker. Let's Go!`
     return initialInfo
   }
 
@@ -33,7 +33,6 @@ const createGame = (numPlayers, board) => {
 
   const isWinner = (player) => {
     const winningPattern = player.marker.repeat(3)
-    console.log(board.getAllPossibleTrios())
     return board.getAllPossibleTrios().some(trio => trio === winningPattern)
   }
 
