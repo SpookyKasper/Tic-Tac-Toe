@@ -101,6 +101,7 @@ const displayGame = (function (game, board) {
     const gameCells = document.querySelectorAll('.cell')
     gameCells.forEach((cell) => {
       cell.textContent = ''
+      addHoverEffect(cell)
       cell.classList.remove('played')
     })
   }

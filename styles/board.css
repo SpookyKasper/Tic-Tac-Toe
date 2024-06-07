@@ -29,6 +29,7 @@ main {
   justify-content: center;
   align-items: center;
   opacity: 0.5;
+  background-color: aqua;
 }
 
 .played {
