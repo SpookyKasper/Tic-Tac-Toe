@@ -21,7 +21,7 @@ const createGame = (numPlayers, board) => {
 
   const startOfGameMessage = () => {
     [player1, player2] = players
-    let initialInfo = `Hello ${player1.name} and ${player2.name} :) Ready for rumble ?
+    let initialInfo = `Hello ${player1.name} and ${player2.name} :) Ready to rumble ?
       ${player1.name} you'll be playing first and with the ${player1.marker} marker,
       whereas you ${player2.name} will be playing with the ${player2.marker} marker. Let's Go!`
     return initialInfo

@@ -29,7 +29,13 @@ main {
   justify-content: center;
   align-items: center;
   opacity: 0.5;
+  cursor: pointer;
   background-color: aqua;
+}
+
+.scaled {
+  transform: scale(0.9);
+  background-color: white;
 }
 
 .played {
@@ -53,6 +59,7 @@ button {
   transition: opacity 0.5s;
   min-height: 30px;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .hidden {

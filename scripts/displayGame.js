@@ -63,27 +63,43 @@ const displayGame = (function (game, board) {
   }
 
   const addFunctionalityToCellEl = (cellEl) => {
-    cellEl.classList.add('hoverable')
     addHoverEffect(cellEl)
+    handleClickEffect(cellEl)
     cellEl.addEventListener('click', () => {
-      const cellNum = cellEl.dataset.cellNum
-      currentP = game.playTurn(+cellNum)
-      cellEl.textContent = currentP.marker
-      cellEl.classList.add('played')
-      infoEl.classList.add('hidden')
-      replayBtnEl.classList.add('hidden')
-      if (game.winner() || board.isFull()){
-        infoEl.classList.remove('hidden')
-        infoEl.textContent = game.endOfGame()
-        toggleHidden(replayBtnEl)
-        document.querySelector('.board').classList.add('played')
-      }
+      handleCellSelection(cellEl)
+      if (game.winner() || board.isFull()) handleWin()
     })
+  }
+
+  const handleClickEffect = (cellEl) => {
+    cellEl.addEventListener('mousedown', () => {
+      cellEl.classList.add('scaled')
+    })
+    cellEl.addEventListener('mouseup', () => {
+      cellEl.classList.remove('scaled')
+    })
+  }
+
+  const handleCellSelection = (cellEl) => {
+    const cellNum = cellEl.dataset.cellNum
+    const currentP = game.playTurn(+cellNum)
+    cellEl.textContent = currentP.marker
+    cellEl.classList.add('played')
+    infoEl.classList.add('hidden')
+    replayBtnEl.classList.add('hidden')
+  }
+
+  const handleWin = () => {
+    infoEl.classList.remove('hidden')
+    infoEl.textContent = game.endOfGame()
+    toggleHidden(replayBtnEl)
+    document.querySelector('.board').classList.add('played')
   }
 
   const addHoverEffect = (cell) => {
     const coverEl = document.createElement('div')
     coverEl.className = 'cover'
+    coverEl.tabIndex = 0
     cell.appendChild(coverEl)
     coverEl.addEventListener('mouseenter', () => {
       const playingNow = game.getDuePlayer()
