@@ -22,6 +22,15 @@ main {
   font-size: 72px;
 }
 
+.cover {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+}
+
 .played {
   pointer-events: none;
 }
@@ -34,8 +43,8 @@ main {
   max-width: 400px;
   min-height: 80px;
   font-size: large;
-  line-height: 0.5cm;
-  text-align: justify;
+  line-height: 0.8cm;
+  /* text-align: justify; */
   opacity: 1;
 }
 

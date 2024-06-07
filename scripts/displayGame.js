@@ -21,12 +21,14 @@ const displayGame = (function (game, board) {
     dialogEl.addEventListener('close', () => {
       setUpInfoBoxEl()
     })
-    dialogEl.showModal()
+    // provisory to make it faster
+    setUpInfoBoxEl()
+    // dialogEl.showModal()
   }
 
   const setUpInfoBoxEl = () => {
     infoEl.className = 'info-box'
-    infoEl.textContent = game.logInitialInfo()
+    infoEl.textContent = game.startOfGameMessage()
     return infoEl
   }
 
@@ -53,28 +55,6 @@ const displayGame = (function (game, board) {
     return replayBtnEl
   }
 
-  const cleanBoard = () => {
-    boardEl.classList.remove('played')
-    toggleHidden(infoEl)
-    toggleHidden(replayBtnEl)
-    const gameCells = document.querySelectorAll('.cell')
-    gameCells.forEach((cell) => {
-      cell.textContent = ''
-      cell.classList.remove('played')
-    })
-  }
-
-  const addGameToDOM = () => {
-    game.initializeGame()
-    getUserNames()
-    let boardElement = createBoardEl()
-    let replayBtnEl = createReplayBtnEl()
-    populateBoardWithCells(boardElement)
-    mainEl.appendChild(infoEl)
-    mainEl.appendChild(boardElement)
-    mainEl.appendChild(replayBtnEl)
-  }
-
   const populateBoardWithCells = (boardElement) => {
     board.gameBoard.flat().forEach((el) => {
       const gameCellEl = createBoardCellEl(el)
@@ -83,9 +63,12 @@ const displayGame = (function (game, board) {
   }
 
   const addFunctionalityToCellEl = (cellEl) => {
+    cellEl.classList.add('hoverable')
+    addHoverEffect(cellEl)
     cellEl.addEventListener('click', () => {
       const cellNum = cellEl.dataset.cellNum
-      cellEl.textContent = game.playTurn(+cellNum)
+      currentP = game.playTurn(+cellNum)
+      cellEl.textContent = currentP.marker
       cellEl.classList.add('played')
       infoEl.classList.add('hidden')
       replayBtnEl.classList.add('hidden')
@@ -98,8 +81,41 @@ const displayGame = (function (game, board) {
     })
   }
 
-  return { addGameToDOM };
+  const addHoverEffect = (cell) => {
+    const coverEl = document.createElement('div')
+    coverEl.className = 'cover'
+    cell.appendChild(coverEl)
+    coverEl.addEventListener('mouseenter', () => {
+      const playingNow = game.getDuePlayer()
+      coverEl.textContent = playingNow.marker
+    })
+    coverEl.addEventListener('mouseleave', () => {
+      coverEl.textContent = ""
+    })
+  }
+
+  const cleanBoard = () => {
+    boardEl.classList.remove('played')
+    toggleHidden(infoEl)
+    toggleHidden(replayBtnEl)
+    const gameCells = document.querySelectorAll('.cell')
+    gameCells.forEach((cell) => {
+      cell.textContent = ''
+      cell.classList.remove('played')
+    })
+  }
+
+  const launchGame = () => {
+    game.initializeGame()
+    getUserNames()
+    let boardElement = createBoardEl()
+    let replayBtnEl = createReplayBtnEl()
+    populateBoardWithCells(boardElement)
+    mainEl.append(infoEl, boardElement, replayBtnEl)
+  }
+
+  return { launchGame };
 })(createGame(2, Board), Board);
 
 
-displayGame.addGameToDOM()
+displayGame.launchGame()
